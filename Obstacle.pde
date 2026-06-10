@@ -2,14 +2,12 @@ class Obstacle
 {
   float x;
   int type;
-  Obstacle(float x, int type) 
+  Obstacle(float xp, int typep) 
   {
-    this.x = x;
-    this.type = type;
+    x = xp;
+    type = typep;
   }
-  void update() 
-  {
-  }
+ 
   void display() 
   {
     if (type == 0) 
@@ -21,7 +19,7 @@ class Obstacle
     {
       // hole
       fill(0);
-      rect(x - 30, 320, 60, 80);
+      rect(x, 320, 60, 80);
     }
   }
   boolean hit(float px, float py) 
@@ -38,7 +36,7 @@ class Obstacle
     // hole collision
     else 
     {
-      if (px > x - 30 && px < x + 30 && py >= 300) 
+      if (px > x - 30 && px < x + 30 && py >= 300) //cooridinate
       {
         return true;
       }

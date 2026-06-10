@@ -1,12 +1,16 @@
-import processing.sound.*;
-AudioIn mic;
-Amplitude amp;
+import processing.sound.*;//load voive model//learn google
+AudioIn mic;//micphone
+Amplitude amp; // check variable
+
 float chickX = 100;
 float chickY = 300;
 float groundY = 320;
-float velocityY = 0;
+
+float velocityY = 0;//jump speed
+
 boolean jumping = false;
-ArrayList<Obstacle> obstacles;
+
+ArrayList<Obstacle> obstacles; //object list
 int score = 0;
 boolean gameOver = false;
 
@@ -18,13 +22,13 @@ void setup()
   mic.start();
   amp = new Amplitude(this);//mac
   amp.input(mic);
-  obstacles = new ArrayList<Obstacle>();
-  // create first obstacles
+  obstacles = new ArrayList<Obstacle>();//create
+  // create first  5 obstacles
   for (int i = 0; i < 5; i++) 
   {
     float x = 600 + i * 300;
     int type = int(random(2)); // 0 = rock, 1 = hole
-    obstacles.add(new Obstacle(x, type));
+    obstacles.add(new Obstacle(x, type));//add to list//91
   }
 }
 
@@ -35,7 +39,7 @@ void draw()
   fill(100, 200, 100);
   rect(0, groundY, width, 80);
   // sound level
-  float level = amp.analyze() * 500;
+  float level = amp.analyze() * 500;//
   fill(0);
   textSize(16);
   text("Sound Level: " + int(level), 20, 30);
@@ -57,7 +61,7 @@ void draw()
   // JUMP using sound above 50
   if (level > 50 && !jumping) 
   {
-    velocityY = -12;
+    velocityY = -12;//up
     jumping = true;
   }
   // gravity
@@ -70,14 +74,13 @@ void draw()
     velocityY = 0;
     jumping = false;
   }
-  // camera effect
   if (chickX > 200) 
   {
       float moveAmount = chickX - 200;
       chickX = 200;
      for (int i = 0; i < obstacles.size(); i++) 
      {
-        obstacles.get(i).x -= moveAmount;
+        obstacles.get(i).x -= moveAmount;//chik X move
      }
       score += int(moveAmount);
   }
@@ -86,19 +89,18 @@ void draw()
   // obstacles
   for (int i = 0; i < obstacles.size(); i++) 
   {
-    obstacles.get(i).update();
-    obstacles.get(i).display();
-    if (obstacles.get(i).hit(chickX, chickY)) 
+    obstacles.get(i).display();//do other tab
+    if (obstacles.get(i).hit(chickX, chickY)) //other tab
     {
       gameOver = true;
     }
   }
   // add new obstacles endlessly
-  if (obstacles.get(obstacles.size()-1).x < width) 
+  if (obstacles.get(obstacles.size()-1).x < width) //if the last thing in the screen 
   {
     float newX = obstacles.get(obstacles.size()-1).x + random(250, 400);//lerning
     int type = int(random(2));
-    obstacles.add(new Obstacle(newX, type));
+    obstacles.add(new Obstacle(newX, type));//add the sixth thing in the list
   }
 }
 void drawChick() 
@@ -111,15 +113,14 @@ void drawChick()
   ellipse(chickX + 10, chickY - 5, 5, 5);
   // beak
   fill(255, 150, 0);
-  triangle(chickX + 20, chickY,
-           chickX + 30, chickY + 5,
-           chickX + 20, chickY + 10);
+  triangle(chickX + 20, chickY,chickX + 30, chickY + 5,chickX + 20, chickY + 10);
   // legs
   stroke(255, 150, 0);
   line(chickX - 10, chickY + 25, chickX - 10, chickY + 35);
   line(chickX + 10, chickY + 25, chickX + 10, chickY + 35);
   noStroke();
 }
+
 void keyPressed() 
 {
   if (key == 'r' || key == 'R') 
@@ -127,6 +128,7 @@ void keyPressed()
     restartGame();
   }
 }
+
 void restartGame() 
 {
   chickX = 100;
